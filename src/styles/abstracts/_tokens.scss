@@ -1,0 +1,14 @@
+:root {
+  --color-danger: $color-watermelon;
+  --color-danger-highlight: $color-watermelon-light;
+  --color-button-primary-bg: $color-violet;
+  --color-button-primary-bg-highlight: $color-violet-light;
+
+  .color-button-bg-warning {
+    background-color: var(--clr-danger);
+  }
+}
+
+:root[data-theme='dark'] {
+  --clr-bg: white;
+}
