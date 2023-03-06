@@ -8,7 +8,7 @@ export const Invoice = z.object({
   paymentTerms: z.number(),
   clientName: z.string(),
   clientEmail: z.string().email(),
-  status: z.string(),
+  status: z.enum(['draft', 'pending', 'paid']),
   senderAddress: z.object({
     street: z.string(),
     city: z.string(),

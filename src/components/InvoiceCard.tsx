@@ -13,7 +13,7 @@ export default function InvoiceCard({
       <span>{paymentDue}</span>
       <span>{clientName}</span>
       <span>{total}</span>
-      <span>{status}</span>
+      <span>{status.toString()}</span>
       <span>arrow icon</span>
     </article>
   );

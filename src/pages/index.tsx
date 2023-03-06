@@ -7,6 +7,27 @@ import allInvoices from '@/data/data.json';
 
 // const inter = Inter({ subsets: ['latin'] });
 
+// TODO:
+// setup / use the getStatic from next
+// refactor / work out what is wrong with my InvoiceList rendering, as zodEnum does work
+
+import { db } from '@/firebase/firebaseConfig';
+import { collection, addDoc } from 'firebase/firestore';
+
+const connect = async () => {
+  console.log('try connect to db');
+  try {
+    const docRef = await addDoc(collection(db, 'users'), {
+      first: 'Ada',
+      last: 'Lovelace',
+      born: 1815,
+    });
+    console.log('Document written with ID: ', docRef.id);
+  } catch (e) {
+    console.error('Error adding document: ', e);
+  }
+};
+
 export default function Home() {
   return (
     <>
@@ -18,7 +39,11 @@ export default function Home() {
       </Head>
       <div className="wrapper">
         <main className="main">
-          <div className="sidebar"></div>
+          <div className="sidebar">
+            <button type="button" onClick={connect}>
+              connect to DB
+            </button>
+          </div>
           <div className="center">
             <header>
               <div className="title">
@@ -33,7 +58,10 @@ export default function Home() {
               </div>
             </header>
             <div className="invoices-list">
-              <InvoiceList invoices={allInvoices} />
+              {/* <InvoiceList invoices={allInvoices} /> */}
+              {allInvoices.map((invoice, i) => (
+                <p key={i}>{invoice.status}</p>
+              ))}
             </div>
           </div>
         </main>
