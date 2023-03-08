@@ -19,6 +19,7 @@ import {
   orderBy,
   limit,
   DocumentData,
+  onSnapshot,
 } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { ITestSchema } from '@/schemas/TestSchema';
@@ -35,30 +36,39 @@ export default function Home() {
    *
    */
 
+  // useEffect(() => {
+  //   const getAllInvoices = async () => {
+  //     setLoading(true);
+  //     // const q = query(collection(db, 'test'));
+  //     // const snapshot = await getDocs(q);
+  //     // const snapshot = await getDocs(collection(db, 'test'));
+  //     await getDocs(collection(db, 'test')).then((querySnapshot) => {
+  //       querySnapshot.forEach((doc) => {
+  //         console.log(doc.id, ' => ', doc.data());
+  //       });
+  //     });
+
+  //     await getDocs(collection(db, 'test')).then((querySnapshot) => {
+  //       const newData = querySnapshot.docs.map((doc) => ({
+  //         ...doc.data(),
+  //       }));
+  //       setInvoices(newData as ITestSchema[]);
+  //       // console.log(invoices, newData);
+  //       console.log('useEffect:', newData);
+  //     });
+
+  //     setLoading(false);
+  //   };
+  //   getAllInvoices();
+  // }, []);
+
   useEffect(() => {
-    const getAllInvoices = async () => {
-      setLoading(true);
-      // const q = query(collection(db, 'test'));
-      // const snapshot = await getDocs(q);
-      // const snapshot = await getDocs(collection(db, 'test'));
-      await getDocs(collection(db, 'test')).then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          console.log(doc.id, ' => ', doc.data());
-        });
-      });
-
-      await getDocs(collection(db, 'test')).then((querySnapshot) => {
-        const newData = querySnapshot.docs.map((doc) => ({
-          ...doc.data(),
-        }));
-        setInvoices(newData as ITestSchema[]);
-        // console.log(invoices, newData);
-        console.log('useEffect:', newData);
-      });
-
-      setLoading(false);
-    };
-    getAllInvoices();
+    const q = query(collection(db, 'test'));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const newData = querySnapshot.docs.map((doc) => ({ ...doc.data() }));
+      setInvoices(newData as ITestSchema[]);
+    });
+    return () => unsubscribe();
   }, []);
 
   return (
