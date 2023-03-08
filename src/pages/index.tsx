@@ -3,32 +3,64 @@ import Image from 'next/image';
 // import { Inter } from '@next/font/google';
 import styles from '@/styles/Home.module.css';
 import InvoiceList from '@/components/InvoiceList';
-import allInvoices from '@/data/data.json';
 
 // const inter = Inter({ subsets: ['latin'] });
 
 // TODO:
-// setup / use the getStatic from next
+// setup / use the getStatic from next?
 // refactor / work out what is wrong with my InvoiceList rendering, as zodEnum does work
 
 import { db } from '@/firebase/firebaseConfig';
-import { collection, addDoc } from 'firebase/firestore';
-
-const connect = async () => {
-  console.log('try connect to db');
-  try {
-    const docRef = await addDoc(collection(db, 'users'), {
-      first: 'Ada',
-      last: 'Lovelace',
-      born: 1815,
-    });
-    console.log('Document written with ID: ', docRef.id);
-  } catch (e) {
-    console.error('Error adding document: ', e);
-  }
-};
+import {
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  orderBy,
+  limit,
+  DocumentData,
+} from 'firebase/firestore';
+import { useEffect, useState } from 'react';
+import { ITestSchema } from '@/schemas/TestSchema';
 
 export default function Home() {
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [invoices, setInvoices] = useState<ITestSchema[]>([]);
+
+  // NOTES:
+  /**
+   * To flatten the data use { ...doc.data().data } -- This is because of Zod object?
+   * don't console log state from inside the useEffect as it causes exaustive-deps warning
+   * for useState<***>([]) use <DocumentData[]> or your schema (if they are both compatible)
+   *
+   */
+
+  useEffect(() => {
+    const getAllInvoices = async () => {
+      setLoading(true);
+      // const q = query(collection(db, 'test'));
+      // const snapshot = await getDocs(q);
+      // const snapshot = await getDocs(collection(db, 'test'));
+      await getDocs(collection(db, 'test')).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          console.log(doc.id, ' => ', doc.data());
+        });
+      });
+
+      await getDocs(collection(db, 'test')).then((querySnapshot) => {
+        const newData = querySnapshot.docs.map((doc) => ({
+          ...doc.data(),
+        }));
+        setInvoices(newData as ITestSchema[]);
+        // console.log(invoices, newData);
+        console.log('useEffect:', newData);
+      });
+
+      setLoading(false);
+    };
+    getAllInvoices();
+  }, []);
+
   return (
     <>
       <Head>
@@ -39,16 +71,12 @@ export default function Home() {
       </Head>
       <div className="wrapper">
         <main className="main">
-          <div className="sidebar">
-            <button type="button" onClick={connect}>
-              connect to DB
-            </button>
-          </div>
+          <div className="sidebar"></div>
           <div className="center">
             <header>
               <div className="title">
                 <h1>Invoices</h1>
-                <p>There are {allInvoices.length} total invoices</p>
+                <p>There are {1} total invoices</p>
               </div>
               <div className="right">
                 <div className="filter">Filter by status</div>
@@ -58,10 +86,20 @@ export default function Home() {
               </div>
             </header>
             <div className="invoices-list">
-              {/* <InvoiceList invoices={allInvoices} /> */}
-              {allInvoices.map((invoice, i) => (
-                <p key={i}>{invoice.status}</p>
-              ))}
+              {isLoading ? (
+                <p>Loading...</p>
+              ) : (
+                <div>
+                  <h3>Invoices</h3>
+                  <pre>{JSON.stringify(invoices, null, 2)}</pre>
+                  <h3>Try Map:</h3>
+                  {invoices.map((d, i) => (
+                    <p key={`invoice-${i}`}>
+                      {d.name} {d.age}
+                    </p>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </main>
