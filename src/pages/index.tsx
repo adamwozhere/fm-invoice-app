@@ -23,11 +23,15 @@ import {
 } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { ITestSchema } from '@/schemas/TestSchema';
+import Link from 'next/link';
+import useInvoice from '@/context/InvoiceContext';
 
 export default function Home() {
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [invoices, setInvoices] = useState<ITestSchema[]>([]);
+  // const [invoices, setInvoices] = useState<ITestSchema[]>([]);
 
+  const invoices = useInvoice();
+  console.log('invoicesContext: ', invoices);
   // NOTES:
   /**
    * To flatten the data use { ...doc.data().data } -- This is because of Zod object?
@@ -62,15 +66,6 @@ export default function Home() {
   //   getAllInvoices();
   // }, []);
 
-  useEffect(() => {
-    const q = query(collection(db, 'test'));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const newData = querySnapshot.docs.map((doc) => ({ ...doc.data() }));
-      setInvoices(newData as ITestSchema[]);
-    });
-    return () => unsubscribe();
-  }, []);
-
   return (
     <>
       <Head>
@@ -86,7 +81,7 @@ export default function Home() {
             <header>
               <div className="title">
                 <h1>Invoices</h1>
-                <p>There are {1} total invoices</p>
+                <p>There are {invoices.length} total invoices</p>
               </div>
               <div className="right">
                 <div className="filter">Filter by status</div>
@@ -103,10 +98,12 @@ export default function Home() {
                   <h3>Invoices</h3>
                   <pre>{JSON.stringify(invoices, null, 2)}</pre>
                   <h3>Try Map:</h3>
-                  {invoices.map((d, i) => (
-                    <p key={`invoice-${i}`}>
-                      {d.name} {d.age}
-                    </p>
+                  {invoices?.map((d, i) => (
+                    <Link href={`/invoice/${d.id}`} key={`invoice-${i}`}>
+                      <p>
+                        {d.name} {d.age}
+                      </p>
+                    </Link>
                   ))}
                 </div>
               )}
