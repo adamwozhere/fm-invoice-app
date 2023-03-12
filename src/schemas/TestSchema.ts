@@ -14,6 +14,7 @@ export const TestSchema = z
   .transform((data) => {
     // think this now works, where generateUID will not be called on editing a document (that already has an id)
     // could alternatively create an Optional id field with default value of 'undefined' etc. then check for that value?
+    // (perhaps this is more type-safe and legible ?)
     let uid: string;
     if ('id' in data) {
       uid = data.id as string;
