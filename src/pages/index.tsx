@@ -27,10 +27,9 @@ import Link from 'next/link';
 import useInvoice from '@/context/InvoiceContext';
 
 export default function Home() {
-  const [isLoading, setLoading] = useState<boolean>(false);
   // const [invoices, setInvoices] = useState<ITestSchema[]>([]);
 
-  const invoices = useInvoice();
+  const { invoices, isLoading } = useInvoice();
   console.log('invoicesContext: ', invoices);
   // NOTES:
   /**
@@ -66,6 +65,10 @@ export default function Home() {
   //   getAllInvoices();
   // }, []);
 
+  if (isLoading) {
+    return <h1>LOADING...</h1>;
+  }
+
   return (
     <>
       <Head>
@@ -86,7 +89,7 @@ export default function Home() {
               <div className="right">
                 <div className="filter">Filter by status</div>
                 <div className="new-invoice">
-                  <button>New Invoice</button>
+                  <Link href="/new">New Invoice</Link>
                 </div>
               </div>
             </header>
@@ -98,7 +101,7 @@ export default function Home() {
                   <h3>Invoices</h3>
                   <pre>{JSON.stringify(invoices, null, 2)}</pre>
                   <h3>Try Map:</h3>
-                  {invoices?.map((d, i) => (
+                  {invoices.map((d, i) => (
                     <Link href={`/invoice/${d.id}`} key={`invoice-${i}`}>
                       <p>
                         {d.name} {d.age}

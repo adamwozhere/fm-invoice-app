@@ -1,15 +1,15 @@
-import InvoiceForm from '@/components/InvoiceForm';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 
 import { TestSchema, ITestSchema } from '@/schemas/TestSchema';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import TextField from '@/components/TextField';
-import { FormEventHandler } from 'react';
+
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '@/firebase/firebaseConfig';
 
 import { generateUID } from '@/utils/generateUID';
+import useInvoice from '@/context/InvoiceContext';
 
 export default function NewInvoice() {
   const {
@@ -18,9 +18,17 @@ export default function NewInvoice() {
     formState: { errors },
   } = useForm<ITestSchema>({ resolver: zodResolver(TestSchema) });
 
-  const onSubmit = async (data: ITestSchema) => {
-    const uid = generateUID();
-    await setDoc(doc(db, 'test', uid), data);
+  const { dispatch } = useInvoice();
+
+  // const onSubmit = async (data: ITestSchema) => {
+  //   const uid = generateUID();
+  //   await setDoc(doc(db, 'test', uid), data);
+  // };
+
+  const onSubmit = (data: ITestSchema) => {
+    console.log('dispatching CREATE');
+    // const uid = generateUID();
+    dispatch({ type: 'CREATE', data: data });
   };
 
   return (

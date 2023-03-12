@@ -26,7 +26,7 @@ export default function Invoice() {
   //   unsubscribe();
   // }, [id]);
 
-  const invoices = useInvoice();
+  const { invoices, dispatch } = useInvoice();
   const data = invoices.find((inv) => inv.id === id);
 
   return (
@@ -38,6 +38,9 @@ export default function Invoice() {
       <Link href="/">Back</Link>
 
       <Link href={`/invoice/${id}/edit`}>Edit</Link>
+      <button onClick={() => dispatch({ type: 'DELETE', id: id as string })}>
+        DELETE
+      </button>
     </>
   );
 }
