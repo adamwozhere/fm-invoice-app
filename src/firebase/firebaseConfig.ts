@@ -21,4 +21,4 @@ const db = getFirestore(app);
 
 export { db };
 
-export const COLLECTION_NAME = 'invoice';
+export const COLLECTION_NAME = 'invoices';

@@ -1,4 +1,4 @@
-import { InvoiceSchema } from '@/schemas/Invoice';
+import { InvoiceSchema } from '@/schemas/InvoiceSchema';
 import InvoiceCard from './InvoiceCard';
 import Link from 'next/link';
 

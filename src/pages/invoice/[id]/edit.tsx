@@ -1,42 +1,32 @@
 import TextField from '@/components/TextField';
 import useInvoice from '@/context/InvoiceContext';
-import { ITestSchema, TestSchema } from '@/schemas/TestSchema';
+import { InvoiceSchema, InvoiceValidator } from '@/schemas/InvoiceSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
-// pre-populate form with default useForm data
 export default function Edit() {
   const router = useRouter();
   const { id } = router.query;
 
   const { invoices, dispatch } = useInvoice();
+  // get field values for current invoice object
   const values = invoices.find(
     (inv) => inv.id === (id as string)
-  ) as ITestSchema;
-  // console.log('values', values, 'id', id);
+  ) as InvoiceSchema;
 
   const {
     handleSubmit,
     register,
-    getFieldState,
-    formState: { errors, isDirty, dirtyFields },
-  } = useForm<ITestSchema>({
-    resolver: zodResolver(TestSchema),
+    formState: { errors, dirtyFields },
+  } = useForm<InvoiceSchema>({
+    resolver: zodResolver(InvoiceValidator),
     defaultValues: values,
   });
 
-  // const onSubmit = async (data: ITestSchema) => {
-  //   const uid = generateUID();
-  //   await setDoc(doc(db, 'test', uid), data);
-  // };
-
-  const onSubmit = (data: ITestSchema) => {
-    // Object.entries(data).map(([key, value]) => {
-    //   if ()
-    // })
-    console.log('dirtyFields', dirtyFields);
+  const onSubmit = (data: InvoiceSchema) => {
+    // get only edited (dirty) values
     const dirtyKeys = Object.keys(dirtyFields);
     const dirtyObjArr = Object.entries(data).filter(([key, value]) => {
       if (dirtyKeys.includes(key)) {
@@ -44,13 +34,16 @@ export default function Edit() {
       }
     });
 
+    // cast back to object
     const dirtyObj = Object.fromEntries(dirtyObjArr);
 
+    // check if anything has actually changed (should check first?)
     console.log('dirtyObj', dirtyObj);
     if (Object.keys(dirtyObj).length === 0) {
       console.log('empty object, no edits made!');
     } else {
       dispatch({ type: 'UPDATE', id: id as string, data: dirtyObj });
+      router.push('/');
     }
   };
 
@@ -59,21 +52,15 @@ export default function Edit() {
       <h1>Edit Invoice # {id}</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
-          label="Name"
-          fieldProps={register('name')}
-          error={errors?.name?.message}
+          label="Client Name"
+          fieldProps={register('clientName')}
+          error={errors?.clientName?.message}
         />
         <TextField
-          label="Age"
-          type="number"
-          fieldProps={register('age')}
-          error={errors?.age?.message}
-        />
-        <TextField
-          label="Nested.field"
-          type="number"
-          fieldProps={register('nested.field')}
-          error={errors?.nested?.field?.message}
+          label="Street"
+          type="text"
+          fieldProps={register('senderAddress.street')}
+          error={errors?.senderAddress?.street?.message}
         />
         <button type="submit">Confirm</button>
       </form>

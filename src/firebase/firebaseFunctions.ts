@@ -1,31 +1,37 @@
 import { db, COLLECTION_NAME } from '@/firebase/firebaseConfig';
-import { collection, onSnapshot, query } from 'firebase/firestore';
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  query,
+  setDoc,
+  updateDoc,
+} from 'firebase/firestore';
 
-export const addItem = async (data: unknown) => {};
+import { Dispatch } from 'react';
 
-export const updateItem = async (data: unknown) => {};
+// TODO: tidy up generics, change all to recieve same generic dispatch action type e.g. { type, payload }
 
-export const deleteItem = async (data: unknown) => {};
-
-export const streamCollection = (col = COLLECTION_NAME) => {
-  const q = query(collection(db, col));
-  const newData = onSnapshot(q, (querySnapshot) =>
-    querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-  );
-  return newData;
+export const createDocument = async <T extends { id: string }>(data: T) => {
+  await setDoc(doc(db, COLLECTION_NAME, data.id), data);
 };
 
-export const streamCollectionSnapshot = (
-  col = COLLECTION_NAME,
-  storeCollection: any
+export const updateDocument = async <T extends { id: string; data: {} }>(
+  data: T
 ) => {
-  const q = query(collection(db, col));
-  const unsubscribe = onSnapshot(q, (querySnapshot) => {
-    const newData = querySnapshot.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }));
-    storeCollection(newData);
+  await updateDoc(doc(db, COLLECTION_NAME, data.id), data.data);
+};
+
+export const deleteDocument = async (data: string) => {
+  await deleteDoc(doc(db, COLLECTION_NAME, data));
+};
+
+// listens for changes to collection and sets them to InvoiceContext using SET dispatch
+export const addCollectionListener = <T>(dispatch: Dispatch<T>) => {
+  const q = query(collection(db, COLLECTION_NAME));
+  onSnapshot(q, (snapshot) => {
+    const data = snapshot.docs.map((doc) => doc.data());
+    dispatch({ type: 'SET', invoices: data } as T);
   });
-  return unsubscribe;
 };

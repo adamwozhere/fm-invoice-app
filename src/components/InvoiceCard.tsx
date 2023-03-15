@@ -1,4 +1,4 @@
-import { InvoiceSchema } from '@/schemas/Invoice';
+import { InvoiceSchema } from '@/schemas/InvoiceSchema';
 
 export default function InvoiceCard({
   id,

@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Invoice, InvoiceSchema } from '@/schemas/Invoice';
+import { Invoice, InvoiceSchema } from '@/schemas/InvoiceSchema';
 import TextField from '@/components/TextField';
 
 export default function InvoiceForm() {

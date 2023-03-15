@@ -1,69 +1,23 @@
 import Head from 'next/head';
-import Image from 'next/image';
+
 // import { Inter } from '@next/font/google';
 import styles from '@/styles/Home.module.css';
-import InvoiceList from '@/components/InvoiceList';
 
 // const inter = Inter({ subsets: ['latin'] });
 
-// TODO:
-// setup / use the getStatic from next?
-// refactor / work out what is wrong with my InvoiceList rendering, as zodEnum does work
-
-import { db } from '@/firebase/firebaseConfig';
-import {
-  collection,
-  addDoc,
-  getDocs,
-  query,
-  orderBy,
-  limit,
-  DocumentData,
-  onSnapshot,
-} from 'firebase/firestore';
-import { useEffect, useState } from 'react';
-import { ITestSchema } from '@/schemas/TestSchema';
 import Link from 'next/link';
 import useInvoice from '@/context/InvoiceContext';
 
 export default function Home() {
-  // const [invoices, setInvoices] = useState<ITestSchema[]>([]);
-
   const { invoices, isLoading } = useInvoice();
   console.log('invoicesContext: ', invoices);
   // NOTES:
   /**
-   * To flatten the data use { ...doc.data().data } -- This is because of Zod object?
+   *
    * don't console log state from inside the useEffect as it causes exaustive-deps warning
    * for useState<***>([]) use <DocumentData[]> or your schema (if they are both compatible)
    *
    */
-
-  // useEffect(() => {
-  //   const getAllInvoices = async () => {
-  //     setLoading(true);
-  //     // const q = query(collection(db, 'test'));
-  //     // const snapshot = await getDocs(q);
-  //     // const snapshot = await getDocs(collection(db, 'test'));
-  //     await getDocs(collection(db, 'test')).then((querySnapshot) => {
-  //       querySnapshot.forEach((doc) => {
-  //         console.log(doc.id, ' => ', doc.data());
-  //       });
-  //     });
-
-  //     await getDocs(collection(db, 'test')).then((querySnapshot) => {
-  //       const newData = querySnapshot.docs.map((doc) => ({
-  //         ...doc.data(),
-  //       }));
-  //       setInvoices(newData as ITestSchema[]);
-  //       // console.log(invoices, newData);
-  //       console.log('useEffect:', newData);
-  //     });
-
-  //     setLoading(false);
-  //   };
-  //   getAllInvoices();
-  // }, []);
 
   if (isLoading) {
     return <h1>LOADING...</h1>;
@@ -104,7 +58,7 @@ export default function Home() {
                   {invoices.map((d, i) => (
                     <Link href={`/invoice/${d.id}`} key={`invoice-${i}`}>
                       <p>
-                        {d.name} {d.age}
+                        {d.clientName} {d.senderAddress.street}
                       </p>
                     </Link>
                   ))}
