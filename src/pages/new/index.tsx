@@ -39,15 +39,6 @@ export default function NewInvoice() {
     router.push('/');
   };
 
-  const getGrandTotal = () => {
-    let total = 0;
-    console.log('watch grand total', watchItems);
-    watchItems.forEach((item) => {
-      total += item.price * item.quantity;
-    });
-    return total;
-  };
-
   return (
     <div>
       <h1>Create new Invoice</h1>
@@ -95,8 +86,7 @@ export default function NewInvoice() {
           })}
           {errors.items?.message}
         </>
-        <label>Grand Total</label>
-        <input disabled={true} value={getGrandTotal()} />
+
         <button
           type="button"
           onClick={() => append({ name: '', quantity: 1, price: 0, total: 0 })}

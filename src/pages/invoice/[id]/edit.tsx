@@ -4,7 +4,7 @@ import { InvoiceSchema, InvoiceValidator } from '@/schemas/InvoiceSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
+import { useFieldArray, useForm } from 'react-hook-form';
 
 export default function Edit() {
   const router = useRouter();
@@ -19,11 +19,20 @@ export default function Edit() {
   const {
     handleSubmit,
     register,
+    watch,
+    control,
     formState: { errors, dirtyFields },
   } = useForm<InvoiceSchema>({
     resolver: zodResolver(InvoiceValidator),
     defaultValues: values,
   });
+
+  const { fields, append, remove } = useFieldArray({
+    name: 'items',
+    control,
+  });
+
+  const watchItems = watch('items');
 
   const onSubmit = (data: InvoiceSchema) => {
     // get only edited (dirty) values
@@ -62,6 +71,44 @@ export default function Edit() {
           fieldProps={register('senderAddress.street')}
           error={errors?.senderAddress?.street?.message}
         />
+
+        <>
+          {fields.map((field, index) => {
+            const total = watchItems[index].price * watchItems[index].quantity;
+
+            return (
+              <section key={field.id}>
+                <TextField
+                  label="Name"
+                  fieldProps={register(`items.${index}.name` as const)}
+                />
+                <TextField
+                  label="Quantity"
+                  type="number"
+                  fieldProps={register(`items.${index}.quantity` as const)}
+                />
+                <TextField
+                  label="Price"
+                  type="number"
+                  fieldProps={register(`items.${index}.price` as const)}
+                />
+                <label>Total</label>
+                <input type="text" value={total} disabled={true} />
+
+                <button type="button" onClick={() => remove(index)}>
+                  Delete
+                </button>
+              </section>
+            );
+          })}
+          {errors.items?.message}
+        </>
+        <button
+          type="button"
+          onClick={() => append({ name: '', quantity: 1, price: 0, total: 0 })}
+        >
+          Add
+        </button>
         <button type="submit">Confirm</button>
       </form>
       <Link href="/">Back</Link>
