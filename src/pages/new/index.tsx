@@ -14,11 +14,12 @@ export default function NewInvoice() {
     handleSubmit,
     register,
     control,
+    watch,
     formState: { errors },
   } = useForm<InvoiceSchema>({
     resolver: zodResolver(InvoiceValidator),
     defaultValues: {
-      items: [{ name: '', quantity: 1 }],
+      items: [{ name: '', quantity: 1, price: 0, total: 0 }],
     },
   });
 
@@ -27,6 +28,8 @@ export default function NewInvoice() {
     control,
   });
 
+  const watchItems = watch('items');
+
   const { dispatch } = useInvoice();
 
   const onSubmit = (data: InvoiceSchema) => {
@@ -34,6 +37,15 @@ export default function NewInvoice() {
     // const uid = generateUID();
     dispatch({ type: 'CREATE', data: data });
     router.push('/');
+  };
+
+  const getGrandTotal = () => {
+    let total = 0;
+    console.log('watch grand total', watchItems);
+    watchItems.forEach((item) => {
+      total += item.price * item.quantity;
+    });
+    return total;
   };
 
   return (
@@ -51,22 +63,46 @@ export default function NewInvoice() {
           fieldProps={register('senderAddress.street')}
           error={errors?.senderAddress?.street?.message}
         />
+
         <>
           {fields.map((field, index) => {
+            const total = watchItems[index].price * watchItems[index].quantity;
+
             return (
               <section key={field.id}>
-                <label htmlFor="">Name</label>
-                <input {...register(`items.${index}.name`)} />
-                <label htmlFor="">Quantity</label>
-                <input {...register(`items.${index}.quantity`)} />
-                <label htmlFor="">Price</label>
-                <input {...register(`items.${index}.price`)} />
-                <label htmlFor="">Total</label>
-                <input {...register(`items.${index}.total`)} />
+                <TextField
+                  label="Name"
+                  fieldProps={register(`items.${index}.name` as const)}
+                />
+                <TextField
+                  label="Quantity"
+                  type="number"
+                  fieldProps={register(`items.${index}.quantity` as const)}
+                />
+                <TextField
+                  label="Price"
+                  type="number"
+                  fieldProps={register(`items.${index}.price` as const)}
+                />
+                <label>Total</label>
+                <input type="text" value={total} disabled={true} />
+
+                <button type="button" onClick={() => remove(index)}>
+                  Delete
+                </button>
               </section>
             );
           })}
+          {errors.items?.message}
         </>
+        <label>Grand Total</label>
+        <input disabled={true} value={getGrandTotal()} />
+        <button
+          type="button"
+          onClick={() => append({ name: '', quantity: 1, price: 0, total: 0 })}
+        >
+          Add
+        </button>
         <button type="submit">Create</button>
       </form>
       <Link href="/">Back</Link>
