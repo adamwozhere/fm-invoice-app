@@ -1,0 +1,9 @@
+@use '../abstracts/colors' as *;
+
+:root {
+  --fnt-family-base: 'Leage Spartan', sans-serif;
+
+  @each $color, $value in $colors {
+    --#{$color}: #{$value};
+  }
+}

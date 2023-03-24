@@ -1,0 +1,35 @@
+$violet: hsl(252, 94%, 67%); // 01
+$crocus: hsl(252, 100%, 73%); // 02
+$ebony: hsl(233, 31%, 17%); // 03
+$midnight: hsl(233, 30%, 21%); // 04
+$mist: hsl(231, 73%, 93%); // 05
+$raincloud: hsl(231, 20%, 61%); // 06
+$lilac: hsl(231, 37%, 63%); // 07
+$onyx: hsl(228, 29%, 7%); // 08
+$watermelon: hsl(0, 80%, 63%); // 09
+$salmon: hsl(0, 100%, 80%); // 10
+$snow: hsl(240, 27%, 98%); // 11
+$jet: hsl(233, 30%, 11%); // 12
+// Extra colours
+$white: hsl(0, 0%, 100%); // 13
+$gunpowder: hsl(231, 20%, 27%); // 14 sidebar
+
+$colors: (
+  violet: hsl(252, 94%, 67%),
+  crocus: hsl(252, 100%, 73%),
+  ebony: hsl(233, 31%, 17%),
+  midnight: hsl(233, 30%, 21%),
+  mist: hsl(231, 73%, 93%),
+  raincloud: hsl(231, 20%, 61%),
+  lilac: hsl(231, 37%, 63%),
+  onyx: hsl(228, 29%, 7%),
+  watermelon: hsl(0, 80%, 63%),
+  salmon: hsl(0, 100%, 80%),
+  snow: hsl(240, 27%, 98%),
+  jet: hsl(233, 30%, 11%),
+  white: hsl(0, 0%, 100%),
+  gunpowder: hsl(231, 20%, 27%),
+  stone: hsl(232, 20%, 36%),
+  pumpkin: hsl(34, 100%, 50%),
+  shadow: hsl(232, 38%, 45%, 10%),
+);

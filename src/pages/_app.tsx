@@ -1,11 +1,23 @@
-import { InvoiceProvider } from '@/context/InvoiceContext';
-import '@/styles/globals.scss';
+import '@/styles/main.scss';
 import type { AppProps } from 'next/app';
+import { InvoiceProvider } from '@/context/InvoiceContext';
+import Layout from '@/components/Layout';
+import { League_Spartan } from '@next/font/google';
+
+const leagueSpartan = League_Spartan({
+  subsets: ['latin'],
+  weight: ['500', '700'],
+  display: 'fallback',
+});
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <InvoiceProvider>
-      <Component {...pageProps} />
-    </InvoiceProvider>
+    <div className={leagueSpartan.className}>
+      <Layout>
+        <InvoiceProvider>
+          <Component {...pageProps} />
+        </InvoiceProvider>
+      </Layout>
+    </div>
   );
 }
