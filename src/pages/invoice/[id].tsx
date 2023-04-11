@@ -16,13 +16,13 @@ export default function Invoice() {
   };
 
   return (
-    <div className="flex-column">
+    <div className="invoice-page">
       <h1>Invoice (hidden)</h1>
       <nav>
         <Link href="/">Go back</Link>
       </nav>
-      <header className="card flex-row">
-        <span>Status</span>
+      <header className="invoice-header">
+        <span className="status">Status</span>
         <span className="tag repel-right">{data?.status}</span>
         <button type="button" className="button">
           Edit
@@ -34,27 +34,57 @@ export default function Invoice() {
           Mark as Paid
         </button>
       </header>
-      <div className="card invoice-card flex-column">
-        <div className="flex-row justify-left">
+      <div className="invoice-main">
+        <div className="flex-row">
           <div>
-            <h3 className="txt-heading-sm invoice-id">{data?.id}</h3>
-            <p>Graphic Design</p>
+            <h3 className="invoice-id">{data?.id}</h3>
+            <p className="description">Graphic Design</p>
           </div>
-          <p>{data?.senderAddress.street}</p>
+          <p className="address">
+            19 Union Terrace
+            <br /> London
+            <br /> E1 3EZ
+            <br /> United Kingdom
+          </p>
+        </div>
+        <div className="flex-row dates-row">
+          <div>
+            <p className="title">Invoice Date</p>
+            <p className="bold">21 Aug 2021</p>
+            <p className="title">Payment Due</p>
+            <p className="bold">20 Sep 2021</p>
+          </div>
+          <div>
+            <p className="title">Bill To</p>
+            <address className="address">
+              <p className="bold">Alex Grim</p>
+              84 Church Way
+              <br />
+              Bradford
+              <br />
+              BD1 9PB
+              <br />
+              United Kingdom
+            </address>
+          </div>
+          <div>
+            <p className="title">Sent To</p>
+            <address className="bold">alexgrim@mail.com</address>
+          </div>
         </div>
         <table className="invoice-items-table txt-heading-sm">
           <thead>
             <tr>
-              <th scope="col" className="txt-body">
+              <th scope="col" className="left">
                 Item Name
               </th>
-              <th scope="col" className="txt-center txt-body">
+              <th scope="col" className="center">
                 QTY.
               </th>
-              <th scope="col" className="txt-right txt-body">
+              <th scope="col" className="right">
                 Price
               </th>
-              <th scope="col" className="txt-right txt-body">
+              <th scope="col" className="right">
                 Total
               </th>
             </tr>
@@ -62,21 +92,21 @@ export default function Invoice() {
           <tbody>
             <tr>
               <td>Banner Design</td>
-              <td className="txt-center">1</td>
-              <td className="txt-right">£ 156.00</td>
-              <td className="txt-right">£ 156.00</td>
+              <td className="center lilac">1</td>
+              <td className="right lilac">£ 156.00</td>
+              <td className="right">£ 156.00</td>
             </tr>
             <tr>
               <td>Email Design</td>
-              <td className="txt-center">2</td>
-              <td className="txt-right">£ 200.0</td>
-              <td className="txt-right">£ 400.0</td>
+              <td className="center lilac">2</td>
+              <td className="right lilac">£ 200.0</td>
+              <td className="right">£ 400.0</td>
             </tr>
-            <tr className="total">
-              <th scope="row" colSpan={3} className="txt-body">
+            <tr className="gunpowder">
+              <th scope="row" colSpan={3} className="left white">
                 Amount Due
               </th>
-              <td className="txt-right">£ 556.00</td>
+              <td className="right total">£ 556.00</td>
             </tr>
           </tbody>
         </table>

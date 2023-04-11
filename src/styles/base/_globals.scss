@@ -116,36 +116,12 @@ a {
   gap: 1rem;
 }
 
-// --- test invoice list table
-table {
-  table-layout: fixed;
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 1rem;
-
-  tr {
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 10px 10px -10px var(--shadow);
-  }
-  td {
-    padding: 1rem;
-    background-color: var(--white);
-  }
-
-  tr td:first-child {
-    border-radius: 8px 0 0 8px;
-  }
-  tr td:last-child {
-    border-radius: 0 8px 8px 0;
-  }
-}
-
 .invoice-summary {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1.6fr 2.3fr 2.3fr 1.6fr 2.2fr auto;
   align-items: baseline;
   gap: 1rem;
-  padding: 16px 32px;
+  padding: 16px 20px 16px 32px;
 
   background-color: var(--white);
   border-radius: 8px;
@@ -172,11 +148,13 @@ table {
 
   .total {
     @extend %heading-small-variant;
+    text-align: end;
     // should be 24px line-height but try align baseline
   }
 
   .tag {
     @extend %heading-small-variant;
+    justify-self: end;
     min-width: 104px;
     padding: 14px 18px 11px 14px;
     color: var(--pumpkin);
@@ -195,11 +173,202 @@ table {
 
   &:hover,
   &:focus {
-    outline: 1px solid red;
+    outline: 1px solid var(--violet);
     outline-offset: -1px;
   }
 }
 // END MAIN PAGE INVOICE LIST CARD
+
+// INVOICE PAGE
+.invoice-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 32px;
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 10px 10px -10px var(--shadow);
+
+  .status {
+    @extend %subheading-small;
+  }
+
+  .tag {
+    @extend %heading-small-variant;
+    justify-self: end;
+    min-width: 104px;
+    padding: 14px 18px 11px 14px;
+    color: var(--pumpkin);
+    border-radius: 6px;
+    text-transform: capitalize;
+    background-color: hsl(34, 100%, 50%, 5.71%);
+
+    // push right
+    margin-right: auto;
+    // bigger gap
+    margin-left: 12px;
+
+    &::before {
+      vertical-align: bottom;
+      margin-right: 4px;
+      content: '\2022';
+      font-size: 1.7em;
+      line-height: 0.5;
+    }
+  }
+
+  button {
+    padding: 18px 24px 15px;
+  }
+}
+
+.invoice-main {
+  background-color: var(--white);
+  border-radius: 8px;
+  padding: 48px;
+  box-shadow: 0 10px 10px -10px var(--shadow);
+  margin-top: 24px;
+
+  .invoice-id {
+    @extend %heading-small;
+    &::before {
+      content: '#';
+      color: var(--raincloud);
+    }
+  }
+
+  .flex-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .dates-row {
+    margin-top: 21px;
+  }
+
+  .title {
+    @extend %subheading-small;
+  }
+
+  .bold {
+    @extend %heading-small-invoice;
+  }
+
+  .description {
+    @extend %subheading-small;
+  }
+
+  .address {
+    @extend %body-text;
+  }
+
+  table {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    border: none;
+    background-color: var(--frost);
+    border-spacing: 0;
+
+    .left {
+      text-align: start;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .right {
+      text-align: end;
+    }
+
+    .lilac {
+      color: var(--lilac);
+    }
+
+    .white {
+      color: var(--white);
+    }
+
+    .total {
+      @extend %heading-medium-variant;
+    }
+
+    .gunpowder {
+      background-color: var(--gunpowder);
+    }
+
+    th {
+      @extend %body-text;
+      padding: 16px 32px;
+      border: none;
+    }
+
+    td {
+      @extend %heading-small-variant;
+      padding: 16px 32px;
+      border: none;
+    }
+
+    tr:first-child th {
+      padding-top: 32px;
+    }
+
+    tr:nth-last-child(2) td {
+      padding-bottom: 40px;
+    }
+
+    tr:last-child td {
+      padding: 27px 32px 21px;
+    }
+  }
+}
+// END INVOICE PAGE
+
+// NEW INVOICE PAGE
+.new-invoice {
+  padding-top: 59px;
+  background-color: var(--white);
+
+  .inline-inputs {
+    display: flex; // makes bigger gap under legend?? no because it was under street input
+    gap: 24px;
+  }
+  h1 {
+    @extend %heading-medium-variant;
+    color: var(--onyx);
+  }
+  h2 {
+    @extend %heading-semi-medium;
+  }
+  fieldset {
+    margin-top: 46px; // or 49px between fieldsets?
+    border: none;
+  }
+  div {
+    margin-top: 24px;
+  }
+  legend {
+    @extend %heading-small-variant;
+    color: var(--violet);
+  }
+  label {
+    @extend %subheading-small;
+    display: block;
+    margin-bottom: 9px;
+    color: var(--lilac);
+  }
+  input,
+  select,
+  option {
+    @extend %heading-small-variant;
+    padding: 18px 20px 15px;
+    border: 1px solid var(--mist);
+    border-radius: 4px;
+  }
+}
+// END NEW INVOICE PAGE
 
 // BUTTONS
 // NOTE: May need to change the line-height or padding between circle icon or just text button
@@ -222,3 +391,83 @@ button:focus {
   background-color: var(--crocus);
 }
 // END BUTTONS
+
+// DATE PICKER
+.date-picker {
+  position: relative;
+  min-width: 240px;
+
+  input[type='date']::-webkit-inner-spin-button,
+  input[type='date']::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+  }
+
+  input {
+    width: 100%;
+  }
+
+  button {
+    background-color: transparent;
+    border-radius: 0;
+    padding: 16px;
+  }
+
+  .toggle-btn {
+    position: absolute;
+    background-color: transparent;
+    color: var(--lilac);
+    padding: 16px;
+    right: 0px;
+    top: 40px;
+  }
+  .calendar {
+    position: absolute;
+    width: 100%;
+    border-radius: 8px;
+    background-color: var(--white);
+    @extend %heading-small-variant;
+    box-shadow: 0 10px 20px 0px var(--shadow);
+    padding: 10px;
+
+    table {
+      width: 100%;
+    }
+
+    td,
+    th,
+    tr {
+      text-align: center;
+      width: 28px;
+      height: 28px;
+    }
+
+    th {
+      color: var(--raincloud);
+    }
+
+    td button {
+      display: block;
+      text-align: center;
+      cursor: pointer;
+      padding: 0;
+      background-color: transparent;
+      color: var(--onyx);
+      border-radius: 0;
+      min-width: 28px;
+      min-height: 28px;
+      &:hover {
+        color: var(--crocus);
+      }
+    }
+
+    .date-month {
+      padding: 16px 0;
+      margin: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+  }
+}
+// END DATE PICKER

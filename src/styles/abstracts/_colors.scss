@@ -12,7 +12,7 @@ $snow: hsl(240, 27%, 98%); // 11
 $jet: hsl(233, 30%, 11%); // 12
 // Extra colours
 $white: hsl(0, 0%, 100%); // 13
-$gunpowder: hsl(231, 20%, 27%); // 14 sidebar
+$gunpowder: hsl(231, 20%, 27%); // 14 sidebar and draft tag
 
 $colors: (
   violet: hsl(252, 94%, 67%),
@@ -30,6 +30,11 @@ $colors: (
   white: hsl(0, 0%, 100%),
   gunpowder: hsl(231, 20%, 27%),
   stone: hsl(232, 20%, 36%),
-  pumpkin: hsl(34, 100%, 50%),
   shadow: hsl(232, 38%, 45%, 10%),
+  pumpkin: hsl(34, 100%, 50%),
+  apple: hsl(160, 67%, 52%),
+  frost: hsl(228, 71%, 99%),
+  // table background
+  graphite: hsl(225, 14%, 53%),
+  // Item list title on form
 );
