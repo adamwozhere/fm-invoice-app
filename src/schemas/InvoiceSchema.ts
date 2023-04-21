@@ -14,7 +14,7 @@ export const PaymentTermsProperties = [
 export const InvoiceValidator = z
   .object({
     id: z.string().default(generateUID()),
-    invoiceDate: z.string().default('2023-04-25'),
+    invoiceDate: z.coerce.date(),
     description: z.string().trim().nonempty(),
     paymentTerms: z.coerce.number(),
     clientName: z.string().trim().nonempty(),
@@ -51,11 +51,15 @@ export const InvoiceValidator = z
       .nonempty(),
   })
   .transform((values) => {
+    let dueDate = new Date(values.invoiceDate);
+    dueDate.setDate(dueDate.getDate() + values.paymentTerms);
+
     let total = 0;
     values.items.forEach((item) => (total += item.total));
+
     return {
-      paymentDue: '2023-05-25',
       ...values,
+      paymentDue: dueDate,
       total,
     };
   });

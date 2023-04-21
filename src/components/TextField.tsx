@@ -1,12 +1,13 @@
 import { useId } from 'react';
-import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
+import { UseFormRegisterReturn } from 'react-hook-form';
 
 interface ITextFieldProps {
   type?: 'text' | 'password' | 'email' | 'number';
   placeholder?: string;
-  fieldProps: UseFormRegisterReturn;
+  fieldProps?: UseFormRegisterReturn;
   error?: string;
   label: string;
+  [x: string]: any;
 }
 
 // try to use ref instead of the register() to pass all the props including error?
@@ -17,6 +18,7 @@ export default function TextField({
   fieldProps,
   error,
   label,
+  ...props
 }: ITextFieldProps) {
   const id = useId();
 
@@ -28,6 +30,7 @@ export default function TextField({
         type={type}
         placeholder={placeholder}
         {...fieldProps}
+        {...props}
         aria-invalid={error ? 'true' : 'false'}
       />
       {error ? <span>{error}</span> : null}

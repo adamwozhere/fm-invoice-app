@@ -12,7 +12,7 @@ import {
   PaymentTermsProperties,
 } from '@/schemas/InvoiceSchema';
 import SelectField from '@/components/SelectField';
-import DatePicker from '@/components/DatePicker';
+import DatePicker from '@/components/DatePicker/DatePicker';
 
 export default function NewInvoice() {
   const router = useRouter();
@@ -21,6 +21,7 @@ export default function NewInvoice() {
     register,
     control,
     watch,
+    setFocus,
     formState: { errors },
   } = useForm<InvoiceSchema>({
     resolver: zodResolver(InvoiceValidator),
@@ -119,19 +120,12 @@ export default function NewInvoice() {
             />
           </div>
           <div className="inline-inputs">
-            <TextField
+            <DatePicker
               label="Invoice Date"
-              type="text"
               fieldProps={register('invoiceDate')}
+              setFocus={setFocus}
               error={errors?.invoiceDate?.message}
             />
-            <DatePicker />
-            {/* <TextField
-              label="Payment Terms"
-              type="text"
-              fieldProps={register('paymentTerms')}
-              error={errors?.paymentTerms?.message}
-            /> */}
             <SelectField
               label="Payment Terms"
               options={PaymentTermsProperties}
@@ -155,20 +149,24 @@ export default function NewInvoice() {
                 <TextField
                   label="Name"
                   fieldProps={register(`items.${index}.name` as const)}
+                  error={errors.items?.[index]?.name?.message}
                 />
                 <TextField
                   label="Quantity"
                   type="number"
+                  min="1"
                   fieldProps={register(`items.${index}.quantity` as const)}
+                  error={errors.items?.[index]?.quantity?.message}
                 />
                 <TextField
                   label="Price"
                   type="number"
+                  min="0"
+                  step="0.01"
                   fieldProps={register(`items.${index}.price` as const)}
+                  error={errors.items?.[index]?.price?.message}
                 />
-                <label>Total</label>
-                <input type="text" value={total} disabled={true} />
-
+                <TextField label="Total" value={total} readOnly disabled />
                 <button type="button" onClick={() => remove(index)}>
                   Delete
                 </button>
