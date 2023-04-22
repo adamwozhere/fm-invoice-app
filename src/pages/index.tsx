@@ -13,10 +13,15 @@ import Layout from '@/components/Layout';
 import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
 import PlusCircleIcon from '@/components/icons/PlusCircleIcon';
+import RouteModal from '@/components/RouteModal';
+import { useRouter } from 'next/router';
+import NewInvoice from '@/components/forms/NewInvoice';
 
 export default function Home() {
   const { invoices, isLoading } = useInvoice();
   console.log('invoicesContext: ', invoices);
+
+  const router = useRouter();
   // NOTES:
   /**
    *
@@ -39,6 +44,18 @@ export default function Home() {
       </Head>
 
       <Header num={invoices.length} />
+      <Link href={'/?new=invoice'} as={'/new'}>
+        Test Modal
+      </Link>
+      <button
+        onClick={() => router.push('/?new=invoice', '/new', { shallow: true })}
+      >
+        test shallow modal
+      </button>
+      <RouteModal active={!!router.query.new}>
+        <NewInvoice />
+      </RouteModal>
+
       <div className="invoices-list">
         {isLoading ? (
           <p>Loading...</p>

@@ -1,12 +1,15 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Button from '@/components/Button';
+import { useRouter } from 'next/router';
 
 interface Props {
   num: number;
 }
 
 export default function Header({ num }: Props) {
+  const router = useRouter();
+
   return (
     <header className="main-header">
       <div className="title">
@@ -27,6 +30,11 @@ export default function Header({ num }: Props) {
       </div>
       <div className="">
         <Button variant="primary-plus" label="New Invoice" />
+        <button
+          onClick={() => router.push('/test', undefined, { shallow: true })}
+        >
+          test shallow route
+        </button>
         {/* <Link href="/new">
           <span className="icon">
                     <Image
