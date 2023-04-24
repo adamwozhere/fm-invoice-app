@@ -1,4 +1,5 @@
 import '@/styles/main.scss';
+import '@/globals.css';
 import type { AppProps } from 'next/app';
 import { InvoiceProvider } from '@/context/InvoiceContext';
 import Layout from '@/components/Layout';

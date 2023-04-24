@@ -14,7 +14,7 @@ export default function RouteModal({ children, active }: Props) {
       if (e.key === 'Escape') {
         // router.back();
         // router.push('/', undefined, { shallow: true });
-        router.push('/');
+        // router.push('/');
       }
     };
     window.addEventListener('keydown', handleEscape);

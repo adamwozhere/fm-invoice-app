@@ -30,10 +30,6 @@ export default function Home() {
    *
    */
 
-  if (isLoading) {
-    return <h1>LOADING...</h1>;
-  }
-
   return (
     <>
       <Head>
@@ -49,6 +45,7 @@ export default function Home() {
       </Link>
       <button
         onClick={() => router.push('/?new=invoice', '/new', { shallow: true })}
+        className="text-3xl font-bold underline"
       >
         test shallow modal
       </button>
