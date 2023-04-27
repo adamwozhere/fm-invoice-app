@@ -1,4 +1,4 @@
-import '@/styles/main.scss';
+// import '@/styles/main.scss';
 import '@/globals.css';
 import type { AppProps } from 'next/app';
 import { InvoiceProvider } from '@/context/InvoiceContext';

@@ -36,6 +36,30 @@ module.exports = {
           fontWeight: '500',
         },
       ],
+      shsm: [
+        '0.8125rem',
+        {
+          lineHeight: '1.154',
+          letterSpacing: '-0.1px',
+          fontWeight: '500',
+        },
+      ],
+      hsm: [
+        '0.9375rem',
+        {
+          lineHeight: '1.6',
+          letterSpacing: '-0.25px',
+          fontWeight: '700',
+        },
+      ],
+      hsmv: [
+        '0.9375rem',
+        {
+          lineHeight: '1',
+          letterSpacing: '-0.25px',
+          fontWeight: '700',
+        },
+      ],
       xl: [
         '2.25rem',
         {
@@ -48,6 +72,22 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['League Spartan', 'sans-serif'],
+      },
+      gridTemplateColumns: {
+        layout: '6.25rem 1fr 6.25rem',
+        summary: '1.6fr 2.3fr 2.3fr 1.6fr 2.2fr auto',
+      },
+      borderRadius: {
+        '4xl': '1.25rem',
+      },
+      width: {
+        25: '6.25rem',
+      },
+      height: {
+        25: '6.25rem',
+      },
+      boxShadow: {
+        base: '0 10px 10px -10px hsl(232, 38%, 25%, 10%)',
       },
     },
   },

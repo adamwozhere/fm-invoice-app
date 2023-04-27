@@ -2,14 +2,19 @@ import InvoiceSummary from './InvoiceSummary';
 import Link from 'next/link';
 import useInvoice from '@/context/InvoiceContext';
 import InvoiceSummaryTableRow from './InvoiceSummaryTableRow';
+import { InvoiceSchema } from '@/schemas/InvoiceSchema';
+
+// @refresh reset
 
 export default function InvoiceList() {
   const { invoices } = useInvoice();
   return (
-    <ul role="list" className="invoice-list-column">
+    <ul role="list" className="invoice-list-column space-y-4">
       {invoices.map((data, i) => (
         <li key={`invoice-${i}`}>
-          <Link href={`/invoice/${data.id}`}>{InvoiceSummary(data)}</Link>
+          <Link href={`/invoice/${data.id}`}>
+            <InvoiceSummary data={data} />
+          </Link>
         </li>
       ))}
     </ul>
