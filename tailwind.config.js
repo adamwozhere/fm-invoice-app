@@ -60,6 +60,14 @@ module.exports = {
           fontWeight: '700',
         },
       ],
+      hmdv: [
+        '1.5rem',
+        {
+          lineHeight: '1.333',
+          letterSpacing: '-0.5px',
+          fontWeight: '700',
+        },
+      ],
       xl: [
         '2.25rem',
         {

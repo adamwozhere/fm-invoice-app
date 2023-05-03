@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { generateUID } from '@/utils/generateUID';
 
+// calc inline ?
 export const calculateTotal = (amount: number, quantity: number) =>
   amount * quantity;
 

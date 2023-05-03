@@ -24,8 +24,11 @@ export default function TextField({
 
   return (
     <div>
-      <label htmlFor={id + label}>{label}</label>
+      <label className="mb-[9px] text-shsm text-lilac" htmlFor={id + label}>
+        {label}
+      </label>
       <input
+        className="mt-[9px] block w-full rounded border border-mist px-[20px] pb-[15px] pt-[18px] text-hsmv text-onyx"
         id={id + label}
         type={type}
         placeholder={placeholder}

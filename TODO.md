@@ -6,4 +6,5 @@
 - [ ] Migrate CSS to Tailwind fully
 - [ ] Implement more complex date picker (text and picker input)
 - [ ] Mobile responsive styling
+- [ ] Dark / Light mode
 - [ ] 'Demo mode' with 'add demo data' to populate Firebase if all records deleted

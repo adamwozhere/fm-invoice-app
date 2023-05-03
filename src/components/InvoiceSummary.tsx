@@ -1,6 +1,6 @@
 import { InvoiceSchema } from '@/schemas/InvoiceSchema';
-import Image from 'next/image';
 import ArrowRightIcon from './icons/ArrowRightIcon';
+import Tag from '@/components/Tag';
 
 type Props = {
   data: InvoiceSchema;
@@ -18,9 +18,7 @@ export default function InvoiceSummary({ data }: Props) {
       </span>
       <span className="name text-shsm text-raincloud">{data.clientName}</span>
       <span className="total text-right text-hsm">£ {data.total}</span>
-      <span className="tag list-item w-[104px] list-inside list-disc justify-self-end rounded-sm bg-pumpkin/[0.06] px-4 pb-3 pt-3.5 text-center text-hsmv capitalize text-pumpkin">
-        {data.status}
-      </span>
+      <Tag status={data.status} />
       <span>
         <ArrowRightIcon />
       </span>

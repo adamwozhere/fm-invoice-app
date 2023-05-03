@@ -1,36 +1,33 @@
 import { MouseEventHandler } from 'react';
-import PlusIcon from '@/components/icons/PlusIcon';
-import Image from 'next/image';
-import PlusCircleIcon from './icons/PlusCircleIcon';
 
 interface Props {
-  variant?:
-    | 'primary'
-    | 'primary-plus'
-    | 'secondary'
-    | 'secondary-plus'
-    | 'tertiary'
-    | 'warning';
+  variant?: 'primary' | 'secondary' | 'warning';
   label?: string;
   type?: 'button' | 'submit';
   onClick?: MouseEventHandler<HTMLButtonElement>;
-  className?: string;
+  icon?: React.ReactNode;
 }
 
+const colors = {
+  primary: 'bg-violet hover:bg-crocus text-white',
+  secondary: 'bg-frost hover:bg-mist text-lilac',
+  warning: 'bg-watermelon hover:bg-salmon text-white',
+};
+
 export default function Button(props: Props) {
+  if (props.variant === undefined) {
+    // props.variant = 'primary';
+  }
+  const colorClasses = colors[props.variant];
+
   return (
     <button
-      className="button"
+      className={`inline-flex items-center rounded-full px-6 py-2 align-middle text-hsmv transition-colors before:h-8 ${colorClasses}`}
       type={props.type ?? 'button'}
       data-variant={props.variant ?? 'primary'}
       onClick={props.onClick}
     >
-      {props.variant === 'primary-plus' ||
-      props.variant === 'secondary-plus' ? (
-        <span>
-          <PlusCircleIcon />
-        </span>
-      ) : null}
+      {props.icon && <span className="-ml-4 mr-4">{props.icon}</span>}
       {props.label}
     </button>
   );

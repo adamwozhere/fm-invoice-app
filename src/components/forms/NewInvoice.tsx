@@ -47,18 +47,18 @@ export default function NewInvoice() {
   };
 
   return (
-    <div className="new-invoice">
-      <h1>New Invoice</h1>
+    <div className="scrollbar-custom fixed inset-0 h-full w-[719px] overflow-y-auto rounded-r-4xl bg-white pl-[159px] pr-[56px] pt-[59px]">
+      <h1 className="text-hmdv">New Invoice</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <fieldset>
-          <legend>Bill From</legend>
+        <fieldset className="mt-[46px] space-y-[24px]">
+          <legend className="mb-6 text-hsmv text-violet">Bill From</legend>
           <TextField
             label="Street Address"
             type="text"
             fieldProps={register('senderAddress.street')}
             error={errors?.senderAddress?.street?.message}
           />
-          <div className="inline-inputs">
+          <div className="inline-inputs flex gap-4">
             <TextField
               label="City"
               type="text"
@@ -80,8 +80,8 @@ export default function NewInvoice() {
           </div>
         </fieldset>
 
-        <fieldset>
-          <legend>Bill To</legend>
+        <fieldset className="mt-[49px] space-y-4">
+          <legend className="mb-6 text-hsmv text-violet">Bill To</legend>
           <TextField
             label="Client's Name"
             fieldProps={register('clientName')}
@@ -99,7 +99,7 @@ export default function NewInvoice() {
             fieldProps={register('clientAddress.street')}
             error={errors?.clientAddress?.street?.message}
           />
-          <div className="inline-inputs">
+          <div className="flex gap-4">
             <TextField
               label="City"
               type="text"

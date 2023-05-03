@@ -51,14 +51,12 @@ export default function Invoice() {
               Graphic Design
             </p>
           </div>
-          <address className="text-right text-sm not-italic text-lilac">
-            {Object.values(data?.senderAddress).map((line, i) => (
-              <>
-                <span>{line}</span>
-                <br />
-              </>
-            ))}
-          </address>
+          <p className="addres text-right text-sm text-lilac">
+            19 Union Terrace
+            <br /> London
+            <br /> E1 3EZ
+            <br /> United Kingdom
+          </p>
         </div>
         <div className="dates-row mt-[21px] flex">
           <div className="basis-1/3">
@@ -115,25 +113,37 @@ export default function Invoice() {
               </th>
             </tr>
           </thead>
+          {/* Take bottom (amount due) part out of table as col widths etc don't work together 
+            ALSO: take of vertical padding on rows and use a TR row gap instead now ! */}
           <tbody>
-            {data?.items.map((item, i) => {
-              return (
-                <tr key={i} className="group">
-                  <td className="px-8 pt-8 text-hsmv group-last:pb-8">
-                    {item.name}
-                  </td>
-                  <td className="px-8 pt-8 text-center text-hsmv text-lilac group-last:pb-8">
-                    {item.quantity}
-                  </td>
-                  <td className="px-8 pt-8 text-right text-hsmv text-lilac group-last:pb-8">
-                    {item.price}
-                  </td>
-                  <td className="px-8 pt-8 text-right text-hsmv group-last:pb-8">
-                    {item.total}
-                  </td>
-                </tr>
-              );
-            })}
+            <tr className="group">
+              <td className="px-8 pt-8 text-hsmv group-last:pb-8">
+                Banner Design
+              </td>
+              <td className="px-8 pt-8 text-center text-hsmv text-lilac group-last:pb-8">
+                1
+              </td>
+              <td className="px-8 pt-8 text-right text-hsmv text-lilac group-last:pb-8">
+                £ 156.00
+              </td>
+              <td className=" px-8 pt-8 text-right text-hsmv group-last:pb-8">
+                £ 156.00
+              </td>
+            </tr>
+            <tr className="group">
+              <td className="px-8 pt-8 text-hsmv group-last:pb-8">
+                Email Design
+              </td>
+              <td className="px-8 pt-8 text-center text-hsmv text-lilac group-last:pb-8">
+                2
+              </td>
+              <td className="px-8 pt-8 text-right text-hsmv text-lilac group-last:pb-8">
+                £ 200.0
+              </td>
+              <td className="px-8 pt-8 text-right text-hsmv group-last:pb-8">
+                £ 400.0
+              </td>
+            </tr>
           </tbody>
         </table>
         <div
@@ -146,6 +156,12 @@ export default function Invoice() {
           </span>
         </div>
       </div>
+      {/* <div>
+        invoice: {id} {JSON.stringify(router.query)}
+      </div> */}
+      {/* <pre>{JSON.stringify(data)}</pre> */}
+
+      {/* <Link href={`/invoice/${id}/edit`}>Edit</Link> */}
     </div>
   );
 }
