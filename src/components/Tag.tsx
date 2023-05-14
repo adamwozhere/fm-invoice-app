@@ -14,7 +14,7 @@ export default function Tag({ status }: Props) {
   return (
     <span
       className={`${classes[status]}
-      w-[104px] justify-self-end rounded-md px-4 pb-3 pt-3.5 text-center text-hsmv capitalize before:relative before:mr-2 before:inline-block before:h-2 before:w-2 before:rounded-full`}
+      w-[104px] justify-self-end rounded-md px-4 pb-[11px] pt-[14px] text-center text-hsmv capitalize before:relative before:mr-2 before:inline-block before:h-2 before:w-2 before:rounded-full`}
     >
       {status}
     </span>

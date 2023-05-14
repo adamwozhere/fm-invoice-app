@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { generateUID } from '@/utils/generateUID';
+import { Timestamp } from 'firebase/firestore';
 
 // calc inline ?
 export const calculateTotal = (amount: number, quantity: number) =>
@@ -54,6 +55,15 @@ export const InvoiceValidator = z
   .transform((values) => {
     let dueDate = new Date(values.invoiceDate);
     dueDate.setDate(dueDate.getDate() + values.paymentTerms);
+    let timestamp = Timestamp.fromDate(dueDate).toDate();
+
+    // work out Timestamp <-> Date transformation
+
+    // let invoiceDate: Date | Timestamp = values.invoiceDate;
+
+    // if (typeof dueDate === Timestamp) {
+    //   invoiceDate = invoiceDate.toDate()
+    // }
 
     let total = 0;
     values.items.forEach((item) => (total += item.total));

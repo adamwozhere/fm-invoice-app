@@ -1,3 +1,6 @@
+// 'use client';
+// TODO: work out how to use context provider with app router
+
 import {
   createContext,
   useContext,

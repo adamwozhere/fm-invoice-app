@@ -79,7 +79,7 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ['League Spartan', 'sans-serif'],
+        sans: ['var(--font-league-spartan)', 'sans-serif'],
       },
       gridTemplateColumns: {
         layout: '6.25rem 1fr 6.25rem',
