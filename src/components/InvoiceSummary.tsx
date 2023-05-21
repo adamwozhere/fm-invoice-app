@@ -1,4 +1,5 @@
 import { InvoiceSchema } from '@/schemas/InvoiceSchema';
+import { formatDate } from '@/utils/formatDate';
 import ArrowRightIcon from './icons/ArrowRightIcon';
 import Tag from '@/components/Tag';
 
@@ -14,7 +15,7 @@ export default function InvoiceSummary({ data }: Props) {
       </span>
       <span className="date text-shsm text-raincloud">
         Due
-        <span className="text-lilac"> {'01 Oct 2022'}</span>
+        <span className="text-lilac"> {formatDate(data.paymentDue)}</span>
       </span>
       <span className="name text-shsm text-raincloud">{data.clientName}</span>
       <span className="total text-right text-hsm">£ {data.total}</span>

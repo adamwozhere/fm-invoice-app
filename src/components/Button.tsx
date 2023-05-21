@@ -19,17 +19,15 @@ export default function Button(props: Props) {
 
   return (
     <button
-      // className={`inline-flex items-center rounded-full px-6 py-2 align-middle text-hsmv transition-colors before:h-8 ${colorClasses}`}
-      className={`inline-flex items-center rounded-full px-6 pb-[15px] pt-[18px] align-middle text-hsmv transition-colors ${colorClasses}`}
+      className={`inline-flex items-center rounded-full px-6 py-2 align-middle text-hsmv transition-colors before:h-8 ${colorClasses}`}
       type={props.type ?? 'button'}
       data-variant={props.variant ?? 'primary'}
       onClick={props.onClick}
     >
-      {/* {props.icon && <span className="-ml-4 mr-4">{props.icon}</span>} */}
-      {props.icon && (
-        <span className="-ml-4 mr-4 before:h-8">{props.icon}</span>
-      )}
-      {props.label}
+      {props.icon && <span className="-ml-4 mr-4">{props.icon}</span>}
+
+      {/* lower baseline of text slightly */}
+      <span className="pt-[2px]">{props.label}</span>
     </button>
   );
 }

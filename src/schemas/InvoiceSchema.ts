@@ -1,6 +1,8 @@
 import { z } from 'zod';
 import { generateUID } from '@/utils/generateUID';
 import { Timestamp } from 'firebase/firestore';
+import { Datelike } from './Datelike';
+import { Address } from './Address';
 
 // calc inline ?
 export const calculateTotal = (amount: number, quantity: number) =>
@@ -11,29 +13,22 @@ export const PaymentTermsProperties = [
   { value: 7, label: 'Net 7 Days' },
   { value: 14, label: 'Net 14 Days' },
   { value: 30, label: 'Net 30 Days' },
-];
+] as const;
+
+// export type PaymentTerm = typeof PaymentTermsProperties[{'value']
 
 export const InvoiceValidator = z
   .object({
     id: z.string().default(generateUID()),
-    invoiceDate: z.coerce.date(),
+    invoiceDate: Datelike,
     description: z.string().trim().nonempty(),
+    // check payment terms is a valid number
     paymentTerms: z.coerce.number(),
     clientName: z.string().trim().nonempty(),
     clientEmail: z.string().email(),
     status: z.enum(['draft', 'pending', 'paid']).default('pending'),
-    senderAddress: z.object({
-      street: z.string().trim().nonempty(),
-      city: z.string().trim().nonempty(),
-      postCode: z.string().trim().nonempty(),
-      country: z.string().trim().nonempty(),
-    }),
-    clientAddress: z.object({
-      street: z.string().trim().nonempty(),
-      city: z.string().trim().nonempty(),
-      postCode: z.string().trim().nonempty(),
-      country: z.string().trim().nonempty(),
-    }),
+    senderAddress: Address,
+    clientAddress: Address,
     items: z
       .array(
         z
@@ -58,12 +53,7 @@ export const InvoiceValidator = z
     let timestamp = Timestamp.fromDate(dueDate).toDate();
 
     // work out Timestamp <-> Date transformation
-
-    // let invoiceDate: Date | Timestamp = values.invoiceDate;
-
-    // if (typeof dueDate === Timestamp) {
-    //   invoiceDate = invoiceDate.toDate()
-    // }
+    // need to test if date exists, then use? or check payement terms matches due date? or just re-transform?
 
     let total = 0;
     values.items.forEach((item) => (total += item.total));

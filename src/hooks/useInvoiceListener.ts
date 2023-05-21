@@ -3,9 +3,8 @@
 import { COLLECTION_NAME, db } from '@/lib/firebase/config';
 import { collection, onSnapshot, query } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import type { InvoiceSchema } from '@/schemas/InvoiceSchema';
+import { InvoiceSchema, InvoiceValidator } from '@/schemas/InvoiceSchema';
 
-// useInvoiceListener() ?
 export default function useInvoiceListener() {
   const [invoices, setInvoices] = useState<InvoiceSchema[]>([]);
 
@@ -15,8 +14,11 @@ export default function useInvoiceListener() {
     const unsubscribe = onSnapshot(
       q,
       (snapshot) => {
-        const data = snapshot.docs.map((doc) => doc.data());
-        setInvoices(data as InvoiceSchema[]);
+        const data = snapshot.docs.map((doc) =>
+          InvoiceValidator.parse(doc.data())
+        );
+        // setInvoices(data as InvoiceSchema[]);
+        setInvoices(data);
       },
       (error) => {
         console.error(error);

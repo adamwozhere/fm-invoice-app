@@ -15,9 +15,8 @@ type Params = {
 // TODO: refactor to a separate file function
 const fetchInvoice = async (invoiceId: string) => {
   const invoice = await getDoc(doc(db, COLLECTION_NAME, invoiceId));
-  // const parsed = InvoiceValidator.parse(invoice.data());
-  // return parsed;
-  return invoice.data() as InvoiceSchema;
+  // return invoice.data() as InvoiceSchema;
+  return InvoiceValidator.parse(invoice.data());
 };
 
 export default async function InvoicePage({ params }: Params) {
@@ -26,6 +25,7 @@ export default async function InvoicePage({ params }: Params) {
   return (
     <>
       <nav className="pt-16">
+        <Link href={`/invoice/${params.invoiceId}/edit`}>test Edit</Link>
         <Link
           href="/"
           className="mb-8 flex items-baseline gap-6 text-hsmv text-onyx"
@@ -35,7 +35,7 @@ export default async function InvoicePage({ params }: Params) {
         </Link>
       </nav>
 
-      <Header invoiceId={invoice.id} />
+      <Header invoiceStatus={invoice.status} />
 
       <Invoice data={invoice} />
     </>
